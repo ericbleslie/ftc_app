@@ -70,13 +70,13 @@ public class coreXYCoordToMotor extends OpMode {
         }
         if (xR < -.1) { //Bug: South and West wheel turn wrong way whether +/- when turning w/ right stick
             N += xR / 2;
-            E += xR / 2;
-            S += xR / 2;
+            E -= xR / 2;
+            S -= xR / 2;
             W += xR / 2;
         } else if (xR > .1){
             N += xR / 2;
-            E += xR / 2;
-            S += xR / 2;
+            E -= xR / 2;
+            S -= xR / 2;
             W += xR / 2;
         }
 
