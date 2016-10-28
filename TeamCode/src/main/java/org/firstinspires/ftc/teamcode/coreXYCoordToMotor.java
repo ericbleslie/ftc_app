@@ -3,17 +3,13 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by Eric on 10/15/2016.
  */
 @TeleOp(name="Omniwheel test", group="Movement")
 public class coreXYCoordToMotor extends OpMode {
-    private ElapsedTime runtime = new ElapsedTime();
     //Declare hardware variables
-    HardwareMap hwMap = null;
     public DcMotor motorN = null;
     public DcMotor motorE = null;
     public DcMotor motorS = null;
@@ -36,10 +32,10 @@ public class coreXYCoordToMotor extends OpMode {
     }
     public void loop() {
         // ===Variables that need input===
-        boolean motorNReverse = true;
-        boolean motorEReverse = false;
-        boolean motorSReverse = false;
-        boolean motorWReverse = true;
+        boolean motorNReverse = false;
+        boolean motorEReverse = true;
+        boolean motorSReverse = true;
+        boolean motorWReverse = false;
         //Define initial motor velocity
         float N = 0;
         float E = 0;
@@ -95,16 +91,12 @@ public class coreXYCoordToMotor extends OpMode {
             S /= maxVal;
             W /= maxVal;
         }
-        N *= 100;
-        E *= 100;
-        S *= 100;
-        W *= 100;
+
         motorN.setPower(N);
         motorE.setPower(E);
         motorS.setPower(S);
         motorW.setPower(W);
         telemetry.addData("Say", N);
         telemetry.addData("Say", E);
-
     }
 }
