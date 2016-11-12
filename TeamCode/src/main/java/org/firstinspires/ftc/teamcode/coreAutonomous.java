@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Autonomous(name="Autonomous", group="Autonomous")
 public class coreAutonomous extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
+    coreLyrics Lyrics = new coreLyrics();
     //Declare hardware variables
     public DcMotor motorN = null;
     public DcMotor motorE = null;
@@ -32,13 +34,21 @@ public class coreAutonomous extends LinearOpMode{
         motorW.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         telemetry.addData("Say", "Hello Driver");
         waitForStart();
+        motorN.setPower(0);
+        motorE.setPower(-.65);
+        motorS.setPower(0);
+        motorW.setPower(.65);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 3.00)){
+            telemetry.addData("Path", Lyrics.song("test", 1), runtime.seconds());
+            telemetry.update();
+        }
         motorN.setPower(1);
         motorE.setPower(1);
         motorS.setPower(1);
         motorW.setPower(1);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 30.0)) {
-            telemetry.addData("Path", "Spiiiiiiiiiiiiiiiiiiiiiining!", runtime.seconds());
+        while (opModeIsActive() && (runtime.seconds() < 33.0)) {
+            telemetry.addData("Path", Lyrics.song("test", 2), runtime.seconds());
             telemetry.update();
         }
         sleep(10000);
