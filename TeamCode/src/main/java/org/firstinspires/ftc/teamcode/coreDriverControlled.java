@@ -15,49 +15,38 @@ public class coreDriverControlled extends OpMode {
     public DcMotor motorE;
     public DcMotor motorS;
     public DcMotor motorW;
-    //public DcMotor motorArm;
 
     public void init() {
         motorN = hardwareMap.dcMotor.get("North");
         motorE = hardwareMap.dcMotor.get("East");
         motorS = hardwareMap.dcMotor.get("South");
         motorW = hardwareMap.dcMotor.get("West");
-        //motorArm = hardwareMap.dcMotor.get("Arm");
         motorN.setPower(0);
         motorE.setPower(0);
         motorS.setPower(0);
         motorW.setPower(0);
-        //motorArm.setPower(0);
         motorN.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorE.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorS.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorW.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //motorArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         telemetry.addData("Say", "Hello Driver");
     }
     public void loop() {
-        // ===Variables that need input===
+        //Reverse motor directions to be forward positive
         boolean motorNReverse = false;
         boolean motorEReverse = true;
         boolean motorSReverse = true;
         boolean motorWReverse = false;
-        //boolean motorArmReverse = false;
         //Define initial motor velocity
         float N = 0;
         float E = 0;
         float S = 0;
         float W = 0;
-        //float A = 0;
         //Define starting position of sticks
         float xL = gamepad1.left_stick_x;
         float yL = gamepad1.left_stick_y;
-        float xR = gamepad1.right_stick_x; //yR is useless for movement so it is not defined
-        //float xL2 = gamepad2.left_stick_x;
-        //float yL2 = gamepad2.left_stick_x;
-        //float xR2 = gamepad2.right_stick_x;
-        //float yR2 = gamepad2.right_stick_y;
-        //Internal Variables
-        float maxVal;
+        float xR = gamepad1.right_stick_x;
+
 
         //Convert X and Y coordinates of both sticks to motor outputs
         if (xL < -.1) {
@@ -93,6 +82,7 @@ public class coreDriverControlled extends OpMode {
         if (motorWReverse){ W = -W; }
 
         //Normalize motor speed
+        float maxVal;
         maxVal = Math.max(Math.max(Math.abs(N),Math.abs(E)),Math.max(Math.abs(S),Math.abs(W)));
         if(maxVal > 1)
         {
