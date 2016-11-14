@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
- * Created by Eric on 10/15/2016.
+ * Created by Eric Leslie on 10/15/2016.
  */
 @TeleOp(name="Team 10428", group="Movement")
 public class coreDriverControlled extends OpMode {
@@ -63,7 +63,7 @@ public class coreDriverControlled extends OpMode {
             E += yL;
             W += yL;
         }
-        if (xR < -.1) { //Bug: South and West wheel turn wrong way whether +/- when turning w/ right stick
+        if (xR < -.1) {
             N += xR / 2;
             E -= xR / 2;
             S -= xR / 2;
@@ -82,8 +82,7 @@ public class coreDriverControlled extends OpMode {
         if (motorWReverse){ W = -W; }
 
         //Normalize motor speed
-        float maxVal;
-        maxVal = Math.max(Math.max(Math.abs(N),Math.abs(E)),Math.max(Math.abs(S),Math.abs(W)));
+        float maxVal = Math.max(Math.max(Math.abs(N),Math.abs(E)),Math.max(Math.abs(S),Math.abs(W)));
         if(maxVal > 1)
         {
             N /= maxVal;
@@ -92,12 +91,11 @@ public class coreDriverControlled extends OpMode {
             W /= maxVal;
         }
 
+        //Set motor power
         motorN.setPower(N);
         motorE.setPower(E);
         motorS.setPower(S);
         motorW.setPower(W);
-        telemetry.addData("Say", N);
-        telemetry.addData("Say", E);
     }
 }
 
