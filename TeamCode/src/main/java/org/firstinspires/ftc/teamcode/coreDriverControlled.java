@@ -17,6 +17,7 @@ public class coreDriverControlled extends OpMode {
     public DcMotor motorW;
 
     public void init() {
+        //Initialize hardware
         motorN = hardwareMap.dcMotor.get("North");
         motorE = hardwareMap.dcMotor.get("East");
         motorS = hardwareMap.dcMotor.get("South");
@@ -37,18 +38,20 @@ public class coreDriverControlled extends OpMode {
         boolean motorEReverse = true;
         boolean motorSReverse = true;
         boolean motorWReverse = false;
+
         //Define initial motor velocity
         float N = 0;
         float E = 0;
         float S = 0;
         float W = 0;
-        //Define starting position of sticks
+
+        //Declare variables to controller stick inputs
         float xL = gamepad1.left_stick_x;
         float yL = gamepad1.left_stick_y;
         float xR = gamepad1.right_stick_x;
 
 
-        //Convert X and Y coordinates of both sticks to motor outputs
+        //Set motor power based on controller inputs
         if (xL < -.1) {
             N += xL;
             S += xL;
@@ -81,7 +84,7 @@ public class coreDriverControlled extends OpMode {
         if (motorSReverse){ S = -S; }
         if (motorWReverse){ W = -W; }
 
-        //Normalize motor speed
+        //Normalize motor speed values greater than 1.0
         float maxVal = Math.max(Math.max(Math.abs(N),Math.abs(E)),Math.max(Math.abs(S),Math.abs(W)));
         if(maxVal > 1)
         {
@@ -91,7 +94,7 @@ public class coreDriverControlled extends OpMode {
             W /= maxVal;
         }
 
-        //Set motor power
+        //Send N, E, S, W power to corresponding motors
         motorN.setPower(N);
         motorE.setPower(E);
         motorS.setPower(S);
