@@ -42,7 +42,6 @@ public class coreAutonomousBasic extends LinearOpMode{
         motorE.setPower(0);
         motorS.setPower(0);
         motorW.setPower(0);
-        sleep(10000);
         telemetry.addData("Talk", "Show me your moves!");
     }
 }

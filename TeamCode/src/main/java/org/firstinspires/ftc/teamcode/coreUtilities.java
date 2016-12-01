@@ -12,15 +12,27 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class coreUtilities{
     HardwareMap hardwareMap = null;
-    public void registerMotor(String pos, String name){
-        if (pos == "N") {
-            DcMotor motorN = hardwareMap.dcMotor.get(name);
-        } else if (pos  == "E") {
-            DcMotor motorE = hardwareMap.dcMotor.get(name);
-        } else if (pos == "S") {
-            DcMotor motorS = hardwareMap.dcMotor.get(name);
-        } else if (pos == "W") {
-            DcMotor motorW = hardwareMap.dcMotor.get(name);
+            DcMotor motorN = hardwareMap.dcMotor.get("North");
+            DcMotor motorE = hardwareMap.dcMotor.get("East");
+            DcMotor motorS = hardwareMap.dcMotor.get("South");
+            DcMotor motorW = hardwareMap.dcMotor.get("West");
+
+    public void move(String direction, float speed){
+        if (direction.toUpperCase().startsWith("N")){
+            motorE.setPower(-speed);
+            motorW.setPower(speed);
+        }
+        if (direction.toUpperCase().startsWith("S")){
+            motorE.setPower(speed);
+            motorW.setPower(-speed);
+        }
+        if (direction.toUpperCase().startsWith("E")){
+            motorN.setPower(speed);
+            motorS.setPower(-speed);
+        }
+        if (direction.toUpperCase().startsWith("W")){
+            motorN.setPower(-speed);
+            motorS.setPower(speed);
         }
     }
 }

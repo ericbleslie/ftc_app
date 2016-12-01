@@ -63,7 +63,7 @@ public class coreAutonomousRight extends LinearOpMode{
          * repeat
          */
         //Move until line is found
-        while (opModeIsActive() && (runtime.seconds() < 30.00) && !foundLine){
+        while (opModeIsActive() && (runtime.seconds() < 29.00) && !foundLine){
             motorE.setPower(-0.65);
             motorW.setPower(0.65);
             // Check if lineSensor sees a color with RGB greater than the threshold for detecting white
@@ -71,7 +71,7 @@ public class coreAutonomousRight extends LinearOpMode{
         }
 
         //Capture and follow white line until beacon seen
-        while (opModeIsActive() && (runtime.seconds() < 30.00) && !foundBeacon){
+        while (opModeIsActive() && (runtime.seconds() < 29.00) && !foundBeacon){
             foundLine = ((lineSensor.red() > whiteTRSH) && (lineSensor.blue() > whiteTRSH) && (lineSensor.green() > whiteTRSH));
             if (foundLine){
                 motorE.setPower(-0.65);
@@ -90,37 +90,10 @@ public class coreAutonomousRight extends LinearOpMode{
 
         //Detect which button to press on beacon
         boolean decidedBeacon = false; //Temporary
-        while (opModeIsActive() && (runtime.seconds() < 30) && !decidedBeacon) {
+        while (opModeIsActive() && (runtime.seconds() < 29.00) && !decidedBeacon) {
             motorN.setPower(-0.35);
             motorS.setPower(0.35);
-            
         }
 
-
-        /** Sample program
-         * motorN.setPower(0);
-         * motorE.setPower(-.65);
-         * motorS.setPower(0);
-         * motorW.setPower(.65);
-         * runtime.reset();
-         * while (opModeIsActive() && (runtime.seconds() < 3.00)){
-         *      telemetry.addData("Path", Lyrics.song("test", 1), runtime.seconds());
-         *      telemetry.update();
-         *  }
-         *  motorN.setPower(1);
-         *  motorE.setPower(1);
-         *  motorS.setPower(1);
-         *  motorW.setPower(1);
-         *  while (opModeIsActive() && (runtime.seconds() < 33.0)) {
-         *      telemetry.addData("Path", Lyrics.song("test", 2), runtime.seconds());
-         *      telemetry.update();
-         *  }
-         *  sleep(10000);
-         *  telemetry.addData("Talk", "Show me your moves!");
-         *  motorN.setPower(0);
-         *  motorE.setPower(0);
-         *  motorS.setPower(0);
-         *  motorW.setPower(0);
-         */
     }
 }
