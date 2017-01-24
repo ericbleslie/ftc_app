@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Created by Eric Leslie on 10/22/2016.
  */
-@Autonomous(name="Autonomous (Right)", group="Autonomous")
+@Autonomous(name="Autonomous - Right Side - Blue", group="Autonomous")
 public class coreAutonomousRight extends LinearOpMode{
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -39,12 +39,17 @@ public class coreAutonomousRight extends LinearOpMode{
         waitForStart();
 
         //Default Variables
-        float whiteTRSH = 0.5F;
-        float redTRSH = 0.5F;
-        float blueTRSH = 0.5F;
-        String color = "Blue";
+        float whiteTRSH = 8;
+        float redTRSH = 2;
+        float blueTRSH = 2;
+        String colorTeam = "Blue";
         boolean foundLine = false;
         boolean foundBeacon = false;
+        boolean foundLeft = false;
+        String colorLeft = "None";
+        boolean foundRight = false;
+        String colorRight = "None";
+        boolean decidedBeacon = false;
 
 
         //Start Autonomous
@@ -64,36 +69,150 @@ public class coreAutonomousRight extends LinearOpMode{
          */
         //Move until line is found
         while (opModeIsActive() && (runtime.seconds() < 29.00) && !foundLine){
-            motorE.setPower(-0.65);
-            motorW.setPower(0.65);
+            motorE.setPower(0.25);
+            motorW.setPower(-0.25);
             // Check if lineSensor sees a color with RGB greater than the threshold for detecting white
-            if ((lineSensor.red() > whiteTRSH) && (lineSensor.blue() > whiteTRSH) && (lineSensor.green() > whiteTRSH)){foundLine = true; telemetry.addData("Say", "Found Line");}
+            if (lineSensor.alpha() > whiteTRSH){foundLine = true; telemetry.addData("Say", "Found Line");}
+            telemetry.clear();
+            telemetry.addData("Line", lineSensor.alpha());
+            telemetry.addData("Color", colorSensor.alpha());
+            telemetry.update();
         }
 
         //Capture and follow white line until beacon seen
         while (opModeIsActive() && (runtime.seconds() < 29.00) && !foundBeacon){
-            foundLine = ((lineSensor.red() > whiteTRSH) && (lineSensor.blue() > whiteTRSH) && (lineSensor.green() > whiteTRSH));
+            foundLine = (lineSensor.alpha() > whiteTRSH);
             if (foundLine){
-                motorE.setPower(-0.65);
-                motorW.setPower(0.65);
+                motorE.setPower(0.65);
+                motorW.setPower(-0.65);
             } else if (!foundLine){
-                motorN.setPower(0.35);
-                motorE.setPower(0.35);
-                motorS.setPower(0.35);
-                motorW.setPower(0.35);
+                motorN.setPower(-0.35);
+                motorE.setPower(-0.35);
+                motorS.setPower(-0.35);
+                motorW.setPower(-0.35);
             }
-
-            boolean condition = false; //Temporary for testing
-            if (condition){foundBeacon = true;}
-            if ((lineSensor.red() > redTRSH) || (lineSensor.blue()> blueTRSH)){foundBeacon = true; telemetry.addData("Say: ", "Found Beacon");}
+            if ((lineSensor.red() > redTRSH / 2) || (lineSensor.blue()> blueTRSH / 2)){foundBeacon = true; telemetry.addData("Say: ", "Found Beacon");}
         }
 
         //Detect which button to press on beacon
-        boolean decidedBeacon = false; //Temporary
         while (opModeIsActive() && (runtime.seconds() < 29.00) && !decidedBeacon) {
-            motorN.setPower(-0.35);
-            motorS.setPower(0.35);
+            while (!foundLeft) {
+                motorN.setPower(0.35);
+                motorS.setPower(-0.35);
+                if (colorSensor.red() > redTRSH){
+                    colorLeft = "Red";
+                    foundLeft = true;
+
+                }
+                if (colorSensor.blue() > blueTRSH){
+                    colorLeft = "Blue";
+                    foundLeft = true;
+                }
+                if (colorLeft.equals(colorTeam)){
+                    decidedBeacon = true;
+                }
+            }
+
+            while (!foundRight){
+                motorN.setPower(-0.35);
+                motorS.setPower(0.35);
+                if ((colorSensor.red() > redTRSH) && (colorLeft.equals("Blue"))){
+                    colorRight = "Red";
+                    foundRight = true;
+                }
+                if ((colorSensor.blue() > blueTRSH) && (colorLeft.equals("Red"))){
+                    colorRight = "Blue";
+                    foundRight = true;
+                }
+                if (colorRight.equals(colorTeam)){
+                    decidedBeacon = true;
+                }
+            }
         }
 
+        //Should now be in front of correct beacon color so go forward
+        motorE.setPower(0.35);
+        motorW.setPower(-0.35);
+        sleep(1000);
+        motorE.setPower(-0.35);
+        motorW.setPower(0.35);
+        sleep(500);
+        motorE.setPower(0);
+        motorW.setPower(0);
+
+        //Now find next beacon line and repeat
+        foundLine = false;
+        foundBeacon = false;
+        foundLeft = false;
+        foundRight = false;
+        while (opModeIsActive() && (runtime.seconds() < 29.00) && !foundLine){
+            motorN.setPower(0.65);
+            motorS.setPower(-0.65);
+            // Check if lineSensor sees a color with RGB greater than the threshold for detecting white
+            if (lineSensor.alpha() > whiteTRSH){foundLine = true; telemetry.addData("Say", "Found Line");}
+        }
+        motorN.setPower(0);
+        motorS.setPower(0);
+
+        //Capture and follow white line until beacon seen
+        while (opModeIsActive() && (runtime.seconds() < 29.00) && !foundBeacon){
+            foundLine = (lineSensor.alpha() > whiteTRSH);
+            if (foundLine){
+                motorE.setPower(0.65);
+                motorW.setPower(-0.65);
+            } else if (!foundLine){
+                motorN.setPower(-0.35);
+                motorE.setPower(-0.35);
+                motorS.setPower(-0.35);
+                motorW.setPower(-0.35);
+            }
+            if ((lineSensor.red() > redTRSH / 2) || (lineSensor.blue()> blueTRSH / 2)){foundBeacon = true; telemetry.addData("Say: ", "Found Beacon");}
+        }
+
+        //Detect which button to press on beacon
+        while (opModeIsActive() && (runtime.seconds() < 29.00) && !decidedBeacon) {
+            while (!foundLeft) {
+                motorN.setPower(0.35);
+                motorS.setPower(-0.35);
+                if (colorSensor.red() > redTRSH){
+                    colorLeft = "Red";
+                    foundLeft = true;
+
+                }
+                if (colorSensor.blue() > blueTRSH){
+                    colorLeft = "Blue";
+                    foundLeft = true;
+                }
+                if (colorLeft.equals(colorTeam)){
+                    decidedBeacon = true;
+                }
+            }
+
+            while (!foundRight){
+                motorN.setPower(-0.35);
+                motorS.setPower(0.35);
+                if ((colorSensor.red() > redTRSH) && (colorLeft.equals("Blue"))){
+                    colorRight = "Red";
+                    foundRight = true;
+                }
+                if ((colorSensor.blue() > blueTRSH) && (colorLeft.equals("Red"))){
+                    colorRight = "Blue";
+                    foundRight = true;
+                }
+                if (colorRight.equals(colorTeam)){
+                    decidedBeacon = true;
+                }
+            }
+        }
+
+        //Should now be in front of correct beacon color so go forward
+        motorE.setPower(0.35);
+        motorW.setPower(-0.35);
+        sleep(1000);
+        motorE.setPower(-0.35);
+        motorW.setPower(0.35);
+        sleep(500);
+        motorE.setPower(0);
+        motorW.setPower(0);
     }
 }

@@ -10,7 +10,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * Created by Eric on 11/21/2016.
  */
 
-public class coreUtilities{
+public class core {
+    public core(){}
     HardwareMap hardwareMap = null;
             DcMotor motorN = hardwareMap.dcMotor.get("North");
             DcMotor motorE = hardwareMap.dcMotor.get("East");
@@ -34,5 +35,9 @@ public class coreUtilities{
             motorN.setPower(-speed);
             motorS.setPower(speed);
         }
+    }
+
+    public void init(){
+        motorN.setPower(0);
     }
 }

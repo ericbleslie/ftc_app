@@ -2,17 +2,19 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by Eric on 10/22/2016.
  */
-@Autonomous(name="Autonomous Basic (Use This)", group="Autonomous")
+@Autonomous(name="Autonomous Basic Methods", group="Autonomous")
+@Disabled
 public class coreAutonomousMethodTest extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
     coreLyrics Lyrics = new coreLyrics();
-    coreUtilities util = new coreUtilities();
+    core core = new core();
 
     public void runOpMode() {
         DcMotor motorN = hardwareMap.dcMotor.get("North");
@@ -29,7 +31,7 @@ public class coreAutonomousMethodTest extends LinearOpMode{
         motorW.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         telemetry.addData("Say", "Hello Driver");
         waitForStart();
-        util.move("North", 1);
+        core.move("North", 1);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 2.00)){
             telemetry.addData("Path", Lyrics.song("test", 1), runtime.seconds());

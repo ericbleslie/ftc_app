@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 @TeleOp(name="Team 10428", group="Movement")
 public class coreDriverControlled extends OpMode {
+
     //Declare hardware variables
     public DcMotor motorN;
     public DcMotor motorE;
@@ -32,6 +33,7 @@ public class coreDriverControlled extends OpMode {
         motorW.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         telemetry.addData("Say", "Hello Driver");
     }
+
     public void loop() {
         //Reverse motor directions to be forward positive
         boolean motorNReverse = false;
@@ -52,26 +54,15 @@ public class coreDriverControlled extends OpMode {
 
 
         //Set motor power based on controller inputs
-        if (xL < -.1) {
-            N += xL;
-            S += xL;
-        } else if (xL > .1) {
+        if ((xL < -0.1) || (xL > 0.1)) {
             N += xL;
             S += xL;
         }
-        if (yL < -.1) {
-            E += yL;
-            W += yL;
-        } else if (yL > .1) {
+        if ((yL < -0.1) || (yL > 0.1)) {
             E += yL;
             W += yL;
         }
-        if (xR < -.1) {
-            N += xR / 2;
-            E -= xR / 2;
-            S -= xR / 2;
-            W += xR / 2;
-        } else if (xR > .1){
+        if ((xR < -0.1) ||(xR > 0.1)) {
             N += xR / 2;
             E -= xR / 2;
             S -= xR / 2;

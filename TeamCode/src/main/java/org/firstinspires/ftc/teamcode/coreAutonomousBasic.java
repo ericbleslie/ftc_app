@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Created by Eric on 10/22/2016.
  */
-@Autonomous(name="Autonomous Basic (Use This)", group="Autonomous")
+@Autonomous(name="Autonomous Basic (When in doubt use this)", group="Autonomous")
 public class coreAutonomousBasic extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
     coreLyrics Lyrics = new coreLyrics();
@@ -43,5 +43,6 @@ public class coreAutonomousBasic extends LinearOpMode{
         motorS.setPower(0);
         motorW.setPower(0);
         telemetry.addData("Talk", "Show me your moves!");
+        telemetry.update();
     }
 }
