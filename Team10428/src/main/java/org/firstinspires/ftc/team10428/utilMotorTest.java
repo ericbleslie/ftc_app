@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.team10428;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @TeleOp(name="Motor Test", group="Utility")
+@Disabled
 public class utilMotorTest extends OpMode {
     //Declare hardware variables
     public DcMotor motorNW;

@@ -49,8 +49,8 @@ public class teleopBasicWithOtherMotors extends OpMode {
         float xL = gamepad1.left_stick_x;
         float yL = -gamepad1.left_stick_y;
         float xR = gamepad1.right_stick_x;
-        boolean LT = (gamepad1.left_trigger > 0.1);
-        boolean RT = (gamepad1.right_trigger > 0.1);
+        boolean LT = (gamepad1.left_trigger > 0.25);
+        boolean RT = (gamepad1.right_trigger > 0.25);
 
 
         //Set motor power based on controller inputs
@@ -89,7 +89,7 @@ public class teleopBasicWithOtherMotors extends OpMode {
         motorNE.setPower(NE);
         motorSW.setPower(SW);
         motorSE.setPower(SE);
-        if (LT){motorSweeper.setPower(1.0);} else if (RT){motorSweeper.setPower(-1.0);}
+        if (LT){motorSweeper.setPower(1.0);} else if (RT){motorSweeper.setPower(-1.0);} else {motorSweeper.setPower(0);}
         //motorNW.setPower(1);
         //motorNE.setPower(1);
         //motorSW.setPower(1);
